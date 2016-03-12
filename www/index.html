@@ -27,18 +27,11 @@
     <!-- Center content -->
     <ion-side-menu-content>
       <ion-header-bar class="bar-dark">
-        <button class="button button-icon" ng-click="toggleTypes()">
-          <i class="icon ion-navicon"></i>
-        </button>
-        <h1 class="title">{{activeType.name}}</h1>
-        <!-- New Task button-->
-        <button class="button button-icon" ng-click="newPokemon()">
-          <i class="icon ion-compose"></i>
-        </button>
+        <h1 class="title">Pokédex</h1>
       </ion-header-bar>
       <ion-content scroll="false">
         <ion-list>
-          <ion-item ng-repeat="pokemon in activeType.pokemons">
+          <ion-item ng-repeat="pokemon in pokemons">
             {{pokemon.name}}
           </ion-item>
         </ion-list>
@@ -48,15 +41,13 @@
     <!-- Left menu -->
     <ion-side-menu side="left">
       <ion-header-bar class="bar-dark">
-        <h1 class="title">Types</h1>
-        <button class="button button-icon ion-plus" ng-click="newType()">
-        </button>
+        <h1 class="title">Options</h1>
       </ion-header-bar>
       <ion-content scroll="false">
         <ion-list>
-          <ion-item ng-repeat="type in types" ng-click="selectType(type, $index)" ng-class="{active: activeType == type}">
-            {{type.name}}
-          </ion-item>
+          <ion-item>Option 1</ion-item>
+          <ion-item>Option 2</ion-item>
+          <ion-item>Option 3</ion-item>
         </ion-list>
       </ion-content>
     </ion-side-menu>

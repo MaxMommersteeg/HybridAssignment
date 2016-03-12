@@ -5,41 +5,15 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('pokedex', ['ionic'])
 
-  .factory('Types', function() {
-    return {
-      all: function() {
-        var typeString = window.localStorage['types'];
-        if(typeString) {
-          return angular.fromJson(typeString);
-        }
-        return [];
-      },
-      save: function(types) {
-        window.localStorage['types'] = angular.toJson(types);
-      },
-      newType: function(typeName) {
-        //Add new type
-        return {
-          name: typeName,
-          //Fill here the pokemons based on type...
-          pokemons: []
-        };
-      },
-      getLastActiveIndex: function() {
-        return parseInt(window.localStorage['lastActiveType']) || 0;
-      },
-      setLastActiveIndex: function(index) {
-        window.localStorage['lastActiveType'] = index;
-      }
-    }
-  })
+  .controller('HomeCtrl', function($scope, $http) {
 
-  .controller('HomeCtrl', function($scope, $http, $timeout, $ionicModal, Types, $ionicSideMenuDelegate) {
-
-    $http.get('http://pokeapi.co/api/v2/type').then(function (resp) {
+    $http.get('http://pokeapi.co/api/v2/pokemon').then(function (resp) {
       console.log('Success', resp.data.results);
       for (i = 0; i < resp.data.results.length; i++) {
-        createType(resp.data.results[i].name);
+        $scope.pokemons.push({
+          name: resp.data.results[i].name,
+          url: resp.data.results[i].url
+        });
       }
       // For JSON responses, resp.data contains the result
     }, function (err) {
@@ -47,87 +21,18 @@ angular.module('pokedex', ['ionic'])
       // err.status will contain the status code
     });
 
-    // Utility for creating a new type
-    var createType = function (typeName) {
-      var newType = Types.newType(typeName);
-      $scope.types.push(newType);
-      Types.save($scope.types);
-      //$scope.selectType(newType, $scope.types.length-1);
-    };
-
-    // Load or initalize types
-    $scope.types = Types.all();
-
-    // Grab the last active, or the first type
-    $scope.activeType = $scope.types[Types.getLastActiveIndex()];
-
-    // Called to create a new type
-    $scope.newType = function () {
-      var typeTitle = prompt('Type name');
-      if (typeTitle) {
-        createType(typeTitle);
-      }
-    };
-
-    // Called to select the given type
-    $scope.selectType = function (type, index) {
-      $scope.activeType = type;
-      Types.setLastActiveIndex(index);
-      $ionicSideMenuDelegate.toggleLeft(false);
-    };
-
-    // Test data
-    $scope.pokemons = [
-      {name: 'Charizard'},
-      {name: 'Mewtwo'},
-      {name: 'Blastoise'},
-      {name: 'Mew'},
-      {name: 'Lugia'},
-      {name: 'Arcanine'},
-      {name: 'Dragonite'},
-      {name: 'Rayquaza'},
-      {name: 'Typhlosion'}
-    ];
-
-    //// No need for testing data anymore
-    //$scope.pokemons = [];
-
-    // Create and load the Modal
-    $ionicModal.fromTemplateUrl('new-pokemon.html', function (modal) {
-      $scope.pokemonModal = modal;
-    }, {
-      scope: $scope
-    });
+    $scope.pokemons = [];
 
     // Called when the form is submitted
     $scope.createPokemon = function (pokemon) {
-      if (!$scope.activeType || !pokemon) {
-        return;
-      }
-      $scope.activeType.pokemons.push({
-        name: pokemon.name
+      $scope.pokemons.push({
+        name: pokemon.name,
+        url: pokemon.url
       });
-      $scope.pokemonModal.hide();
-
-      // Inefficient..
-      Types.save($scope.types);
 
       pokemon.name = "";
+      pokemon.url = "";
     };
-
-    // Open our new pokemon modal
-    $scope.newPokemon = function () {
-      $scope.pokemonModal.show();
-    };
-
-    // Close the new pokemon modal
-    $scope.closeNewPokemon = function () {
-      $scope.pokemonModal.hide();
-    };
-
-    $scope.toggleTypes = function () {
-      $ionicSideMenuDelegate.toggleLeft();
-    }
   })
 
   .run(function($ionicPlatform) {
