@@ -21,6 +21,7 @@ angular.module('pokedex', ['ionic'])
         //Add new type
         return {
           name: typeName,
+          //Fill here the pokemons based on type...
           pokemons: []
         };
       },
@@ -33,14 +34,25 @@ angular.module('pokedex', ['ionic'])
     }
   })
 
-  .controller('HomeCtrl', function($scope, $timeout, $ionicModal, Types, $ionicSideMenuDelegate) {
+  .controller('HomeCtrl', function($scope, $http, $timeout, $ionicModal, Types, $ionicSideMenuDelegate) {
+
+    $http.get('http://pokeapi.co/api/v2/type').then(function (resp) {
+      console.log('Success', resp.data.results);
+      for (i = 0; i < resp.data.results.length; i++) {
+        createType(resp.data.results[i].name);
+      }
+      // For JSON responses, resp.data contains the result
+    }, function (err) {
+      console.error('Error status:', err.status);
+      // err.status will contain the status code
+    });
 
     // Utility for creating a new type
-    var createType = function(typeName) {
+    var createType = function (typeName) {
       var newType = Types.newType(typeName);
       $scope.types.push(newType);
       Types.save($scope.types);
-      $scope.selectType(newType, $scope.types.length-1);
+      //$scope.selectType(newType, $scope.types.length-1);
     };
 
     // Load or initalize types
@@ -50,15 +62,15 @@ angular.module('pokedex', ['ionic'])
     $scope.activeType = $scope.types[Types.getLastActiveIndex()];
 
     // Called to create a new type
-    $scope.newType = function() {
+    $scope.newType = function () {
       var typeTitle = prompt('Type name');
-      if(typeTitle) {
+      if (typeTitle) {
         createType(typeTitle);
       }
     };
 
     // Called to select the given type
-    $scope.selectType = function(type, index) {
+    $scope.selectType = function (type, index) {
       $scope.activeType = type;
       Types.setLastActiveIndex(index);
       $ionicSideMenuDelegate.toggleLeft(false);
@@ -66,30 +78,30 @@ angular.module('pokedex', ['ionic'])
 
     // Test data
     $scope.pokemons = [
-      { name: 'Charizard' },
-      { name: 'Mewtwo' },
-      { name: 'Blastoise' },
-      { name: 'Mew' },
-      { name: 'Lugia' },
-      { name: 'Arcanine' },
-      { name: 'Dragonite' },
-      { name: 'Rayquaza' },
-      { name: 'Typhlosion' }
+      {name: 'Charizard'},
+      {name: 'Mewtwo'},
+      {name: 'Blastoise'},
+      {name: 'Mew'},
+      {name: 'Lugia'},
+      {name: 'Arcanine'},
+      {name: 'Dragonite'},
+      {name: 'Rayquaza'},
+      {name: 'Typhlosion'}
     ];
 
     //// No need for testing data anymore
     //$scope.pokemons = [];
 
     // Create and load the Modal
-    $ionicModal.fromTemplateUrl('new-pokemon.html', function(modal) {
+    $ionicModal.fromTemplateUrl('new-pokemon.html', function (modal) {
       $scope.pokemonModal = modal;
     }, {
       scope: $scope
     });
 
     // Called when the form is submitted
-    $scope.createPokemon = function(pokemon) {
-      if(!$scope.activeType || !pokemon) {
+    $scope.createPokemon = function (pokemon) {
+      if (!$scope.activeType || !pokemon) {
         return;
       }
       $scope.activeType.pokemons.push({
@@ -104,31 +116,18 @@ angular.module('pokedex', ['ionic'])
     };
 
     // Open our new pokemon modal
-    $scope.newPokemon = function() {
+    $scope.newPokemon = function () {
       $scope.pokemonModal.show();
     };
 
     // Close the new pokemon modal
-    $scope.closeNewPokemon = function() {
+    $scope.closeNewPokemon = function () {
       $scope.pokemonModal.hide();
     };
 
-    $scope.toggleTypes = function() {
+    $scope.toggleTypes = function () {
       $ionicSideMenuDelegate.toggleLeft();
-    };
-
-    // Try to create the first type, do this by creating a timeout so that everything is getting created
-    $timeout(function () {
-      if($scope.types.length == 0) {
-        while(true) {
-          var typeName = "Testtype";
-          if(typeName) {
-            createType(typeName);
-            break;
-          }
-        }
-      }
-    });
+    }
   })
 
   .run(function($ionicPlatform) {
