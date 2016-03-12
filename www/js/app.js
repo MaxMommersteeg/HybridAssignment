@@ -5,7 +5,65 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('pokedex', ['ionic'])
 
-  .controller('HomeCtrl', function($scope, $ionicModal) {
+  .factory('Types', function() {
+    return {
+      all: function() {
+        var typeString = window.localStorage['types'];
+        if(typeString) {
+          return angular.fromJson(typeString);
+        }
+        return [];
+      },
+      save: function(types) {
+        window.localStorage['types'] = angular.toJson(types);
+      },
+      newType: function(typeName) {
+        //Add new type
+        return {
+          name: typeName,
+          pokemons: []
+        };
+      },
+      getLastActiveIndex: function() {
+        return parseInt(window.localStorage['lastActiveType']) || 0;
+      },
+      setLastActiveIndex: function(index) {
+        window.localStorage['lastActiveType'] = index;
+      }
+    }
+  })
+
+  .controller('HomeCtrl', function($scope, $timeout, $ionicModal, Types, $ionicSideMenuDelegate) {
+
+    // Utility for creating a new type
+    var createType = function(typeName) {
+      var newType = Types.newType(typeName);
+      $scope.types.push(newType);
+      Types.save($scope.types);
+      $scope.selectType(newType, $scope.types.length-1);
+    };
+
+    // Load or initalize types
+    $scope.types = Types.all();
+
+    // Grab the last active, or the first type
+    $scope.activeType = $scope.types[Types.getLastActiveIndex()];
+
+    // Called to create a new type
+    $scope.newType = function() {
+      var typeTitle = prompt('Type name');
+      if(typeTitle) {
+        createType(typeTitle);
+      }
+    };
+
+    // Called to select the given type
+    $scope.selectType = function(type, index) {
+      $scope.activeType = type;
+      Types.setLastActiveIndex(index);
+      $ionicSideMenuDelegate.toggleLeft(false);
+    };
+
     // Test data
     $scope.pokemons = [
       { name: 'Charizard' },
@@ -26,16 +84,22 @@ angular.module('pokedex', ['ionic'])
     $ionicModal.fromTemplateUrl('new-pokemon.html', function(modal) {
       $scope.pokemonModal = modal;
     }, {
-      scope: $scope,
-      animation: 'slide-in-up'
+      scope: $scope
     });
 
     // Called when the form is submitted
     $scope.createPokemon = function(pokemon) {
-      $scope.pokemons.push({
+      if(!$scope.activeType || !pokemon) {
+        return;
+      }
+      $scope.activeType.pokemons.push({
         name: pokemon.name
       });
       $scope.pokemonModal.hide();
+
+      // Inefficient..
+      Types.save($scope.types);
+
       pokemon.name = "";
     };
 
@@ -48,6 +112,23 @@ angular.module('pokedex', ['ionic'])
     $scope.closeNewPokemon = function() {
       $scope.pokemonModal.hide();
     };
+
+    $scope.toggleTypes = function() {
+      $ionicSideMenuDelegate.toggleLeft();
+    };
+
+    // Try to create the first type, do this by creating a timeout so that everything is getting created
+    $timeout(function () {
+      if($scope.types.length == 0) {
+        while(true) {
+          var typeName = "Testtype";
+          if(typeName) {
+            createType(typeName);
+            break;
+          }
+        }
+      }
+    });
   })
 
   .run(function($ionicPlatform) {

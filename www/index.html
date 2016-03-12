@@ -24,28 +24,42 @@
   <body ng-app="pokedex" ng-controller="HomeCtrl">
 
   <ion-side-menus>
-      <!-- Center content -->
-      <ion-side-menu-content>
-        <ion-header-bar class="bar-dark">
-          <h1 class="title">Pokédex</h1>
-          <!--New Pokémon button-->
-          <button class="button button-icon" ng-click="newPokemon()">
-            <i class="icon ion-compose"></i>
-          </button>
-        </ion-header-bar>
-        <ion-content>
-          <ion-item ng-repeat="pokemon in pokemons">
+    <!-- Center content -->
+    <ion-side-menu-content>
+      <ion-header-bar class="bar-dark">
+        <button class="button button-icon" ng-click="toggleTypes()">
+          <i class="icon ion-navicon"></i>
+        </button>
+        <h1 class="title">{{activeType.name}}</h1>
+        <!-- New Task button-->
+        <button class="button button-icon" ng-click="newPokemon()">
+          <i class="icon ion-compose"></i>
+        </button>
+      </ion-header-bar>
+      <ion-content scroll="false">
+        <ion-list>
+          <ion-item ng-repeat="pokemon in activeType.pokemons">
             {{pokemon.name}}
           </ion-item>
-        </ion-content>
-      </ion-side-menu-content>
+        </ion-list>
+      </ion-content>
+    </ion-side-menu-content>
 
-      <!-- Left menu -->
-      <ion-side-menu side="left">
-        <ion-header-bar class="bar-dark">
-          <h1 class="title">Options</h1>
-        </ion-header-bar>
-      </ion-side-menu>
+    <!-- Left menu -->
+    <ion-side-menu side="left">
+      <ion-header-bar class="bar-dark">
+        <h1 class="title">Types</h1>
+        <button class="button button-icon ion-plus" ng-click="newType()">
+        </button>
+      </ion-header-bar>
+      <ion-content scroll="false">
+        <ion-list>
+          <ion-item ng-repeat="type in types" ng-click="selectType(type, $index)" ng-class="{active: activeType == type}">
+            {{type.name}}
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-side-menu>
 
     </ion-side-menus>
 
