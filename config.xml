@@ -20,6 +20,9 @@
   
   <allow-navigation href="http://*/*" />
   
+  <!-- Don't block any requests -->
+  <access origin="*" />
+  
   <!-- Windows Phone -->
   <feature name="SocialSharing">
     <param name="wp-package" value="SocialSharing"/>
