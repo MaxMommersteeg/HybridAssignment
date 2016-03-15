@@ -2,7 +2,7 @@
 <widget id="com.ionicframework.pokedex804730" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Pokedex</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Hybride assignment
     </description>
   <author email="you@example.com" href="http://example.com.com/">
       Your Name Here
@@ -16,8 +16,21 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
+  <splash src="splash.png" />
+  <!-- Windows Phone -->
+  <feature name="SocialSharing">
+    <param name="wp-package" value="SocialSharing"/>
+  </feature>
+  <!-- iOS -->
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
+  </feature>
+  <feature name="SocialSharing">
+    <param name="ios-package" value="SocialSharing" />
+  </feature>
+  <!-- Android (you will find one in res/xml) -->
+  <feature name="SocialSharing">
+    <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
   </feature>
   <platform name="android">
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
