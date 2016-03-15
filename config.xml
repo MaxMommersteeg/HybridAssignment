@@ -18,11 +18,7 @@
   <preference name="SplashScreenDelay" value="3000"/>
   <splash src="splash.png" />
   
-  <!-- Allow links to example.com -->
-  <allow-navigation href="http://pokeapi.co/*" />
-  
-  <!-- Allow links to example.com to open in a browser -->
-  <allow-intent href="http://pokeapi.co/*" />
+  <allow-navigation href="http://*/*" />
   
   <!-- Windows Phone -->
   <feature name="SocialSharing">
