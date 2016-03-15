@@ -17,6 +17,13 @@
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
   <splash src="splash.png" />
+  
+  <!-- Allow links to example.com -->
+  <allow-navigation href="http://pokeapi.co/*" />
+  
+  <!-- Allow links to example.com to open in a browser -->
+  <allow-intent href="http://pokeapi.co/*" />
+  
   <!-- Windows Phone -->
   <feature name="SocialSharing">
     <param name="wp-package" value="SocialSharing"/>
