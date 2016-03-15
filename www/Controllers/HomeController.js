@@ -7,7 +7,6 @@
     $scope.currentPokemon = {};
      
     $http.get('http://pokeapi.co/api/v2/pokemon').then(function (resp) {
-        alert(resp.data.results);
         console.log('Success', resp.data.results);
         for (i = 0; i < resp.data.results.length; i++) {
             $scope.pokemons.push({
@@ -19,7 +18,7 @@
     }, function (err) {
       console.error('Error status:', err.status);
       alert(err.status);
-      // err.status will contain the status code
+      //Alert user with error status
     });
 
     // Called when the form is submitted
@@ -34,6 +33,19 @@
     };
     
     $scope.showPokemon = function (url) {
-        $scope.currentPokemon = {};
+        // Retrieve pokemon by url
+        $http.get(url).then(function (resp) {
+            // Set currentPokemon to be the retrieved JSON object of type Pokemon
+            $scope.currentPokemon = resp.data;
+            
+            // Show pokemon name and some data for testing purposes
+            alert("id: " + $scope.currentPokemon.id + " | name: " +  $scope.currentPokemon.name + " | weight: " + $scope.currentPokemon.weight);
+            
+        }, function(err) {
+            console.error('Error status:', err.status);
+            alert(err.status);
+            // Alert user with error status
+        });
+        
     };
 });
