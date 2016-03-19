@@ -1,68 +1,49 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' * ws://localhost:35729 data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *;script-src 'self' localhost:35729 'unsafe-eval' 'unsafe-inline';">
-    <title></title>
+    <title>Ionic Seed App</title>
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <!-- ionic css -->
+    <link href="lib/css/ionic.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+    <!-- your app's css -->
+    <link href="css/app.css" rel="stylesheet">
 
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- ionic/angularjs scripts -->
+    <script src="lib/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
-    <!-- your app's js -->
+    <!-- your app's script -->
     <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+  </head>
 
-    <!-- Controllers -->
-    <script src="Controllers/HomeController.js"></script>
+  <!-- 
+    'starter' is the name of this angular module (js/app.js)
+  -->
+  <body ng-app="starter" animation="slide-left-right-ios7">
 
-    <!-- Share button plugin -->
-    <script type="text/javascript" src="js/SocialSharing.js"></script>
+    <!-- 
+      The nav bar that will be updated as we navigate between views
+      Additional attributes set its look, ion-nav-bar animation and icons
+      Icons provided by Ionicons: http://ionicons.com/ 
+    -->
+    <ion-nav-bar class="bar-positive">
+      <ion-nav-back-button class="button-icon button-clear ion-ios7-arrow-back">
+      </ion-nav-back-button>
+    </ion-nav-bar>
 
-</head>
+    <!-- 
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view></ion-nav-view>
 
-<body ng-app="pokedex" ng-controller="HomeController">
-
-    <ion-side-menus>
-        <!-- Center content -->
-        <ion-side-menu-content>
-            <ion-header-bar class="bar-dark">
-                <h1 class="title">Pokédex</h1>
-            </ion-header-bar>
-            <ion-content scroll="true">
-                <ion-list>
-                    <ion-item ng-repeat="pokemon in pokemons" ng-click="showPokemon(pokemon.url)">
-                        {{pokemon.name}}
-                    </ion-item>
-                </ion-list>
-            </ion-content>
-        </ion-side-menu-content>
-
-        <!-- Left menu -->
-        <ion-side-menu side="left">
-            <ion-header-bar class="bar-dark">
-                <h1 class="title">Options</h1>
-            </ion-header-bar>
-            <ion-content scroll="false">
-                <ion-list>
-                    <ion-item ng-click="nextPokemonPage()">Next</ion-item>
-                    <ion-item ng-click="previousPokemonPage()">Previous</ion-item>
-                    <ion-item onclick="window.plugins.socialsharing.share('Message to share')">Share</ion-item>
-                </ion-list>
-            </ion-content>
-        </ion-side-menu>
-
-    </ion-side-menus>
-</body>
-
+  </body>
 </html>
