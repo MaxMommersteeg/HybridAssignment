@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers'])
     })
 
     .state('tab.pokemon-detail', {
-      url: '/pokemon/:pokemonId',
+      url: '/pokemon/:url',
       views: {
         'pokemons-tab': {
           templateUrl: 'templates/pokemon-detail.html',
@@ -64,6 +64,5 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers'])
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/pokemons');
-
 });
 

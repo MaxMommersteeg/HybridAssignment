@@ -3,13 +3,14 @@
   It was wired up in the app config (app.js) 
   The 'pets' data comes from its $scope within PetIndexCtrl (controller.js)
 -->
-<ion-view title="Pokemon list">
+<ion-view title="{{pokemon.name}}">
   <ion-content>
 
     <ion-list>
 
-      <ion-item ng-repeat="pokemon in pokemons" type="item-text-wrap" href="#/tab/pokemon/{{pokemon.id}}">
+      <ion-item ng-repeat="pokemon in pokemons" type="item-text-wrap" href="#/tab/pokemon/{{pokemon.url}}">
         <h3>{{pokemon.name}}</h3>
+        <h3>{{pokemon.url}}</h3>
       </ion-item>
       
     </ion-list>

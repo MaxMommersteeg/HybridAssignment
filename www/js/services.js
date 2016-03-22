@@ -15,31 +15,6 @@ angular.module('starter.services', [])
   ];
 
   return {
-    all: function() {
-      $http.get('http://pokeapi.co/api/v2/pokemon?limit=10').then(function (resp) {
-            console.log('Success: initial GetPokemons', resp.data.results);
-            //Set Global variables for this API call
-            $scope.currentCount = resp.data.count;
-            $scope.nextPageUrl = resp.data.next;
-            $scope.previousPageUrl = resp.data.previous;
-            
-            var pokemons = [];
-            
-            // Iterate over retrieved pokemons from API call
-            for (i = 0; i < resp.data.results.length; i++) {
-                pokemons.push({
-                    name: resp.data.results[i].name,
-                    url: resp.data.results[i].url
-                });
-            }
-        // For JSON responses, resp.data contains the result
-        }, function (err) {
-            console.error('Error status:', err.status);
-            alert(err.status);
-            // Alert user with error status
-        });
-        return pokemons;
-    },
     get: function(pokemonId) {
       // Simple index lookup
       return pokemons[pokemonId];
