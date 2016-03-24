@@ -2,7 +2,7 @@ var appModule = angular.module('starter.controllers', []);
 
 // A simple controller that fetches a list of data from a service
 appModule.controller('PokemonIndexCtrl', function($scope, $http) {
-    $scope.baseUrlGetPokemons = "http://pokeapi.co/api/v2/pokemon?limit=10";
+    $scope.baseUrlGetPokemons = "http://pokeapi.co/api/v2/pokemon?limit=30";
     
     $scope.pokemons = [];
     
@@ -40,6 +40,7 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
                 var id = urlWithoutTrailingSlash.split('/').pop();
                 $scope.pokemons.push({pokemonId:id, name:resp.data.results[i].name, url: resp.data.results[i].url});
             }
+            
         // For JSON responses, resp.data contains the result
         }, function (err) {
             console.error("Failed: GetPokemons: ", err.status);
@@ -47,7 +48,7 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
             // Alert user with error status
         });
     }
-   
+    
    // Load initial pokemons
    $scope.getPokemons();
 });
