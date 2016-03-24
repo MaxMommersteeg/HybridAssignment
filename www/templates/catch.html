@@ -2,8 +2,8 @@
   <ion-content padding="true" has-tabs="true">
       
     <h2>Your current location:</h2>
-    <p>Latitude: {{currentPosition.coords.latitude ? currentPosition.coords.latitude : 'Enable your GPS'}}</p>
-    <p>Longitude: {{currentPosition.coords.longitude ? currentPosition.coords.longitude : 'Enable your GPS'}}</p>
+    <p>Latitude: {{currentPosition.coords.latitude ? currentPosition.coords.latitude : 'Enable your GPS and try again'}}</p>
+    <p>Longitude: {{currentPosition.coords.longitude ? currentPosition.coords.longitude : 'Enable your GPS try again'}}</p>
     
     <p><a ng-click="getCurrentPosition()" class="button button-full button-positive icon ion-location"> Recalculate your current location</a></p>
     

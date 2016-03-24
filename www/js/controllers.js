@@ -67,10 +67,12 @@ appModule.controller('MyPokemonCtrl', function($scope, $stateParams, $http) {
     $scope.currentPosition = {};
     
     $scope.getCurrentPosition = function() {
+        
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
         function onSuccess(position) {
             console.log("Success: getCurrentPosition");
-            $scope.currentPosition = position;    
+            $scope.currentPosition = position;
+            
         }
         
         function onError() {
