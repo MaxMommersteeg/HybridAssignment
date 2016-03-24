@@ -60,6 +60,28 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
    $scope.getPokemons();
    
    $scope.setAndGetLocalStorage();
+   
+});
+
+appModule.controller('MyPokemonCtrl', function($scope, $stateParams, $http) {
+    $scope.currentPosition = {};
+    
+    $scope.getCurrentPosition = function() {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        function onSuccess(position) {
+            console.log("Success: getCurrentPosition");
+            $scope.$apply(function() {
+                $scope.currentPosition = position;    
+            });
+        }
+        
+        function onError() {
+            console.log("Failed: getCurrentPosition");
+            console.log("Location error");
+        }
+    }
+    
+    $scope.getCurrentPosition();  
 });
 
 appModule.controller('PokemonDetailCtrl', function($scope, $stateParams, $http) {

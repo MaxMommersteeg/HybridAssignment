@@ -56,7 +56,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/catch',
       views: {
         'catch-tab': {
-          templateUrl: 'templates/catch.html'
+          templateUrl: 'templates/catch.html',
+          controller: 'MyPokemonCtrl'
         }
       }
     });
