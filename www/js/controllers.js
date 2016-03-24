@@ -9,30 +9,20 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
     $scope.currentCount = {};
     
     $scope.nextPageUrl = {};
-    $scope.previousPageUrl = {};
-  
     $scope.nextPageExists = true;
   
     $scope.getPokemons = function () {
         console.log("GetPokemons called");
+        
         $scope.addPokemonsByUrl($scope.baseUrlGetPokemons);
     }
-    
-    // $scope.previousPage = function() {
-    //     console.log("Previous page called");
-    //     if($scope.previousPage == null) {
-    //         console.log("Next page url is null");
-    //         return;
-    //     }
-    //     $scope.addPokemonsByUrl($scope.nextPageUrl);
-    //     $scope.$broadcast('scroll.infiniteScrollComplete');
-    // }
     
     $scope.nextPage = function() {
         console.log("Next page called");
         
         $scope.addPokemonsByUrl($scope.nextPageUrl);
         
+        // Disable recalling this method when last item was reached
         if($scope.nextPageUrl == null) {
             $scope.nextPageExists = false;
         }
@@ -58,40 +48,42 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
             
         // For JSON responses, resp.data contains the result
         }, function (err) {
-            console.error("Failed: GetPokemons: ", err.status);
-            alert(err.status);
-            // Alert user with error status
+            console.log("Failed: GetPokemons: " + err);
         });
+    }
+    
+    $scope.setAndGetLocalStorage = function() {
+        window.localStorage.setItem("username", "Max Mommersteeg");
     }
     
    // Load initial pokemons
    $scope.getPokemons();
+   
+   $scope.setAndGetLocalStorage();
 });
 
 appModule.controller('PokemonDetailCtrl', function($scope, $stateParams, $http) {
     $scope.baseUrlGetPokemon = "http://pokeapi.co/api/v2/pokemon/";
      
-    // Logging
-    console.log("Pokemon detail controller called");
-    
     $scope.pokemon = {};
-    
-    //Call get pokemon
-    getPokemon($stateParams.pokemonId);
-    
-    function getPokemon(pokemonId) {
+     
+    $scope.getPokemons = function (pokemonId) {
         // Assemble base url and Id
         var url = $scope.baseUrlGetPokemon + String(pokemonId);
         $http.get(url).then(function (resp) {
             console.log("Success: GetPokemon: " + url);
             // Set pokemon
             $scope.pokemon = resp.data;
+            $scope.pokemon.ls = window.localStorage.getItem("username");
         }, function (err) {
             console.error("Pokemon retrieval failed: ", err.status);
                 alert(err.status);
                 // Alert user with error status
         });
     }
+    
+    //Call get pokemon
+    $scope.getPokemons($stateParams.pokemonId);
 });
 
 function stripTrailingSlash(str) {
