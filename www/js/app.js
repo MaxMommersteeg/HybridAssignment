@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.services', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers'])
 
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers'])
     })
 
     .state('tab.pokemon-detail', {
-      url: '/pokemon/:url',
+      url: '/pokemon/:pokemonId',
       views: {
         'pokemons-tab': {
           templateUrl: 'templates/pokemon-detail.html',
