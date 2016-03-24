@@ -2,16 +2,32 @@ var appModule = angular.module('starter.controllers', []);
 
 // A simple controller that fetches a list of data from a service
 appModule.controller('PokemonIndexCtrl', function($scope, $http) {
-  $scope.baseUrlGetPokemons = "http://pokeapi.co/api/v2/pokemon?limit=10";
+    $scope.baseUrlGetPokemons = "http://pokeapi.co/api/v2/pokemon?limit=10";
+    
+    $scope.pokemons = [];
+    
+    $scope.currentCount = {};
+    $scope.nextPageUrl = {};
+    $scope.previousPageUrl = {};
   
-  $scope.pokemons = [];
-  
-  loadPokemons();
-  
-  function loadPokemons() {
-      $http.get($scope.baseUrlGetPokemons).then(function (resp) {
-          
-            console.log("Success: GetPokemons: " + $scope.baseUrlGetPokemons);
+    $scope.getPokemons = function () {
+        console.log("GetPokemons called");
+        $scope.addPokemonsByUrl($scope.baseUrlGetPokemons);
+    }
+    
+    $scope.nextPage = function() {
+        console.log("Next page called");
+        if($scope.nextPage == null) {
+            console.log("Next page url is null");
+            return;
+        }
+        $scope.addPokemonsByUrl($scope.nextPageUrl);
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+    }
+    
+    $scope.addPokemonsByUrl = function(url) {
+        $http.get(url).then(function (resp) {        
+            console.log("Success: GetPokemons: " + url);
             //Set Global variables for this API call
             $scope.currentCount = resp.data.count;
             $scope.nextPageUrl = resp.data.next;
@@ -31,6 +47,9 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
             // Alert user with error status
         });
     }
+   
+   // Load initial pokemons
+   $scope.getPokemons();
 });
 
 appModule.controller('PokemonDetailCtrl', function($scope, $stateParams, $http) {

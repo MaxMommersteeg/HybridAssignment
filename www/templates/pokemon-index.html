@@ -5,10 +5,6 @@
 -->
 <ion-view title="Pokédex">
   <ion-content>
-
-    <button class="button button-positive align-left">Previous</button>
-    <button class="button button-positive align-right">Next</button>
-
     <ion-list>
 
       <ion-item ng-repeat="pokemon in pokemons" type="item-text-wrap" href="#/tab/pokemon/{{pokemon.pokemonId}}">
@@ -16,7 +12,8 @@
         <h3>{{pokemon.name}}</h3>
       </ion-item>
       
+      <ion-infinite-scroll on-infinite="nextPage()"></ion-infinite-scroll>
+      
     </ion-list>
-
   </ion-content>
 </ion-view>
