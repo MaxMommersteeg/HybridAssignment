@@ -7,22 +7,35 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
     $scope.pokemons = [];
     
     $scope.currentCount = {};
+    
     $scope.nextPageUrl = {};
     $scope.previousPageUrl = {};
+  
+    $scope.nextPageExists = true;
   
     $scope.getPokemons = function () {
         console.log("GetPokemons called");
         $scope.addPokemonsByUrl($scope.baseUrlGetPokemons);
     }
     
+    // $scope.previousPage = function() {
+    //     console.log("Previous page called");
+    //     if($scope.previousPage == null) {
+    //         console.log("Next page url is null");
+    //         return;
+    //     }
+    //     $scope.addPokemonsByUrl($scope.nextPageUrl);
+    //     $scope.$broadcast('scroll.infiniteScrollComplete');
+    // }
+    
     $scope.nextPage = function() {
         console.log("Next page called");
-        if($scope.nextPage == null) {
-            console.log("Next page url is null");
-            return;
-        }
+        
         $scope.addPokemonsByUrl($scope.nextPageUrl);
-        $scope.$broadcast('scroll.infiniteScrollComplete');
+        
+        if($scope.nextPageUrl == null) {
+            $scope.nextPageExists = false;
+        }
     }
     
     $scope.addPokemonsByUrl = function(url) {
@@ -40,6 +53,8 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
                 var id = urlWithoutTrailingSlash.split('/').pop();
                 $scope.pokemons.push({pokemonId:id, name:resp.data.results[i].name, url: resp.data.results[i].url});
             }
+            // Reload infinite scroll
+            $scope.$broadcast('scroll.infiniteScrollComplete');
             
         // For JSON responses, resp.data contains the result
         }, function (err) {
@@ -71,7 +86,6 @@ appModule.controller('PokemonDetailCtrl', function($scope, $stateParams, $http) 
             console.log("Success: GetPokemon: " + url);
             // Set pokemon
             $scope.pokemon = resp.data;
-            
         }, function (err) {
             console.error("Pokemon retrieval failed: ", err.status);
                 alert(err.status);
