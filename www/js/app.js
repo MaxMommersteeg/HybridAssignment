@@ -7,7 +7,6 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers'])
 
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
@@ -44,20 +43,20 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
 
-    .state('tab.adopt', {
-      url: '/adopt',
+    .state('tab.my-pokémon', {
+      url: '/my-pokémon',
       views: {
-        'adopt-tab': {
-          templateUrl: 'templates/adopt.html'
+        'my-pokémon-tab': {
+          templateUrl: 'templates/my-pokémon.html'
         }
       }
     })
 
-    .state('tab.about', {
-      url: '/about',
+    .state('tab.catch', {
+      url: '/catch',
       views: {
-        'about-tab': {
-          templateUrl: 'templates/about.html'
+        'catch-tab': {
+          templateUrl: 'templates/catch.html'
         }
       }
     });
