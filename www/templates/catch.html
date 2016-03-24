@@ -2,10 +2,10 @@
   <ion-content padding="true" has-tabs="true">
       
     <h2>Your current location:</h2>
-    <p>Latitude: {{ currentPosition.coords.latitude }}</p>
-    <p>Longitude: {{currentPosition.coords.longitude}}</p>
+    <p>Latitude: {{currentPosition.coords.latitude ? currentPosition.coords.latitude : 'Enable your GPS'}}</p>
+    <p>Longitude: {{currentPosition.coords.longitude ? currentPosition.coords.longitude : 'Enable your GPS'}}</p>
     
-    <p><a class="button button-small icon ion-arrow-left-b" href="#/tab/pokemons"> Back to pokemon list</a></p>
-      
+    <p><a ng-click="getCurrentPosition()" class="button button-full button-positive icon ion-location"> Recalculate your current location</a></p>
+    
   </ion-content>
 </ion-view>
