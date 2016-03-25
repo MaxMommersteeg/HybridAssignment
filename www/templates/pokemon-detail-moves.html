@@ -1,0 +1,12 @@
+<ion-view title="{{pokemon.name}}">
+  <ion-content has-tabs="true">
+      
+    <ion-list>
+        
+      <ion-item ng-repeat="move in pokemon.moves" type="item-text-wrap">
+        <h3>{{move.move.name}}</h3>
+      </ion-item>
+      
+    </ion-list>
+  </ion-content>
+</ion-view>

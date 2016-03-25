@@ -1,0 +1,12 @@
+<ion-view title="{{pokemon.name}}">
+  <ion-content has-tabs="true">
+    <ion-list>
+
+      <ion-item ng-repeat="stat in pokemon.stats" type="item-text-wrap">
+        <h3>{{stat.stat.name}}</h3>
+        <h4>Base: {{stat.base_stat}}</h4>
+      </ion-item>
+      
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,13 +1,10 @@
 var appModule = angular.module('starter.controllers', []);
 
-// A simple controller that fetches a list of data from a service
+// PokemonIndex Controller
 appModule.controller('PokemonIndexCtrl', function($scope, $http) {
     $scope.baseUrlGetPokemons = "http://pokeapi.co/api/v2/pokemon?limit=30";
-    
     $scope.pokemons = [];
-    
     $scope.currentCount = {};
-    
     $scope.nextPageUrl = {};
     $scope.nextPageExists = true;
   
@@ -34,9 +31,6 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
             $scope.previousPageUrl = resp.data.previous;
             // Iterate over retrieved pokemons from API call
             for (i = 0; i < resp.data.results.length; i++) {
-                //Remove last slash from url, get PokemonId by url
-                //var urlWithoutTrailingSlash = stripTrailingSlash(resp.data.results[i].url);
-                //var id = urlWithoutTrailingSlash.split('/').pop();
                 $scope.pokemons.push({name:resp.data.results[i].name, url: resp.data.results[i].url});
             }
             // Reload infinite scroll
@@ -56,8 +50,10 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
    $scope.setAndGetLocalStorage();
 });
 
+// MyPokemon Controller
 appModule.controller('MyPokemonCtrl', function($scope, $stateParams, $http) {
     $scope.currentPosition = {};
+    
     $scope.getCurrentPosition = function() {
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
         function onSuccess(position) {
@@ -73,33 +69,26 @@ appModule.controller('MyPokemonCtrl', function($scope, $stateParams, $http) {
     $scope.getCurrentPosition();  
 });
 
+// PokemonDetail Controller
 appModule.controller('PokemonDetailCtrl', function($scope, $stateParams, $http) {
     $scope.baseUrlGetPokemon = "http://pokeapi.co/api/v2/pokemon/";
     $scope.pokemon = {};
-    $scope.getPokemons = function (name) {
+    
+    $scope.getPokemon = function (name) {
         // Assemble base url and Id (name)
         var url = $scope.baseUrlGetPokemon + String(name);
         $http.get(url).then(function (resp) {
             console.log("Success: GetPokemon: " + url);
             // Set pokemon
             $scope.pokemon = resp.data;
-            // Split moves in seperate lists
-            $scope.splitMoves();
             $scope.pokemon.ls = window.localStorage.getItem("username");
         }, function (err) {
             console.error("Failed: getPokemons: ", err.status);
             console.error(err);
         });
     }
-    
-    $scope.splitMoves = function() {
-        if($scope.pokemon == null) {
-            return;
-        }
-        var len = $scope.pokemon.moves.length, mid = len / 2;
-        $scope.pokemon.leftmoves = $scope.pokemon.moves.slice(0, mid);
-        $scope.pokemon.rightmovies = $scope.pokemon.moves.slice(mid, len);
-    }
     //Call get pokemon
-    $scope.getPokemons($stateParams.name);
+    $scope.getPokemon($stateParams.name);
 });
+
+appModule.controller('SettingsCtrl', function($scope, $http) {});

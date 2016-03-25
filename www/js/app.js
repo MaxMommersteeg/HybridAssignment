@@ -27,8 +27,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/pokemons',
       views: {
         'pokemons-tab': {
-          templateUrl: 'templates/pokemon-index.html',
-          controller: 'PokemonIndexCtrl'
+            templateUrl: 'templates/pokemon-index.html',
+            controller: 'PokemonIndexCtrl'
         }
       }
     })
@@ -37,10 +37,30 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/pokemon/:name',
       views: {
         'pokemons-tab': {
-          templateUrl: 'templates/pokemon-detail.html',
-          controller: 'PokemonDetailCtrl'
+            templateUrl: 'templates/pokemon-detail.html',
+            controller: 'PokemonDetailCtrl'
         }
       }
+    })
+    
+    .state('tab.pokemon-detail-moves', {
+        url: '/pokemon/:name/moves',
+        views: {
+            'pokemons-tab': {
+                templateurl: 'templates/pokemon-detail-moves.html',
+                controller: 'PokemonDetailCtrl'   
+            }
+        }
+    })
+
+    .state('tab.pokemon-detail-stats', {
+        url: '/pokemon/:name/stats',
+        views: {
+            'pokemons-tab': {
+                templateUrl: 'templates/pokemon-detail-stats.html',
+                controller: 'PokemonDetailCtrl'               
+            }
+        }
     })
 
     .state('tab.my-pokémon', {
@@ -72,8 +92,6 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
     });
     
-    
-
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/pokemons');
 });
