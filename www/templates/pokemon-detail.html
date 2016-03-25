@@ -40,8 +40,10 @@
     <hr>
     <div class="row">
         <div class="col-50 align-center">
+            <a ng-disabled="pokemon.name == null" class="button button-positive align-center" href="#/tab/pokemon/{{pokemon.name}}/stats">Show Stats</a>
         </div>
         <div class="col-50 align-center">
+            <a ng-disabled="pokemon.name == null" class="button button-positive align-center" href="#/tab/pokemon/{{pokemon.name}}/moves">Show Moves</a>
         </div>
     </div>
     <hr>
