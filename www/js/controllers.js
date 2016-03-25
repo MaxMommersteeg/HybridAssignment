@@ -35,13 +35,12 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
             $scope.currentCount = resp.data.count;
             $scope.nextPageUrl = resp.data.next;
             $scope.previousPageUrl = resp.data.previous;
-            
             // Iterate over retrieved pokemons from API call
             for (i = 0; i < resp.data.results.length; i++) {
                 //Remove last slash from url, get PokemonId by url
-                var urlWithoutTrailingSlash = stripTrailingSlash(resp.data.results[i].url);
-                var id = urlWithoutTrailingSlash.split('/').pop();
-                $scope.pokemons.push({pokemonId:id, name:resp.data.results[i].name, url: resp.data.results[i].url});
+                //var urlWithoutTrailingSlash = stripTrailingSlash(resp.data.results[i].url);
+                //var id = urlWithoutTrailingSlash.split('/').pop();
+                $scope.pokemons.push({name:resp.data.results[i].name, url: resp.data.results[i].url});
             }
             // Reload infinite scroll
             $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -51,47 +50,37 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
             console.log("Failed: GetPokemons: " + err);
         });
     }
-    
     $scope.setAndGetLocalStorage = function() {
         window.localStorage.setItem("username", "Max Mommersteeg");
     }
-    
    // Load initial pokemons
    $scope.getPokemons();
-   
    $scope.setAndGetLocalStorage();
-   
 });
 
 appModule.controller('MyPokemonCtrl', function($scope, $stateParams, $http) {
     $scope.currentPosition = {};
-    
     $scope.getCurrentPosition = function() {
-        
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
         function onSuccess(position) {
             console.log("Success: getCurrentPosition");
             $scope.currentPosition = position;
             
-        }
-        
+        }  
         function onError() {
             console.log("Failed: getCurrentPosition");
             $scope.currentPosition = null;
         }
     }
-    
     $scope.getCurrentPosition();  
 });
 
 appModule.controller('PokemonDetailCtrl', function($scope, $stateParams, $http) {
     $scope.baseUrlGetPokemon = "http://pokeapi.co/api/v2/pokemon/";
-     
     $scope.pokemon = {};
-     
-    $scope.getPokemons = function (pokemonId) {
+    $scope.getPokemons = function (name) {
         // Assemble base url and Id
-        var url = $scope.baseUrlGetPokemon + String(pokemonId);
+        var url = $scope.baseUrlGetPokemon + String(name);
         $http.get(url).then(function (resp) {
             console.log("Success: GetPokemon: " + url);
             // Set pokemon
@@ -103,22 +92,6 @@ appModule.controller('PokemonDetailCtrl', function($scope, $stateParams, $http) 
                 // Alert user with error status
         });
     }
-    
     //Call get pokemon
-    $scope.getPokemons($stateParams.pokemonId);
+    $scope.getPokemons($stateParams.name);
 });
-
-function stripTrailingSlash(str) {
-    return str.replace(/\/$/, "");
-}
-
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    url = url.toLowerCase(); // This is just to avoid case sensitiveness  
-    name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// This is just to avoid case sensitiveness for query parameter name
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}

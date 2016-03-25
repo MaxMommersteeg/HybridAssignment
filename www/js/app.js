@@ -34,7 +34,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     })
 
     .state('tab.pokemon-detail', {
-      url: '/pokemon/:pokemonId',
+      url: '/pokemon/:name',
       views: {
         'pokemons-tab': {
           templateUrl: 'templates/pokemon-detail.html',
