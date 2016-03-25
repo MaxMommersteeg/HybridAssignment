@@ -13,15 +13,12 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
   
     $scope.getPokemons = function () {
         console.log("GetPokemons called");
-        
         $scope.addPokemonsByUrl($scope.baseUrlGetPokemons);
     }
     
     $scope.nextPage = function() {
         console.log("Next page called");
-        
         $scope.addPokemonsByUrl($scope.nextPageUrl);
-        
         // Disable recalling this method when last item was reached
         if($scope.nextPageUrl == null) {
             $scope.nextPageExists = false;
@@ -47,7 +44,8 @@ appModule.controller('PokemonIndexCtrl', function($scope, $http) {
             
         // For JSON responses, resp.data contains the result
         }, function (err) {
-            console.log("Failed: GetPokemons: " + err);
+            console.error("Failed: GetPokemons");
+            console.error(err);
         });
     }
     $scope.setAndGetLocalStorage = function() {
@@ -68,7 +66,7 @@ appModule.controller('MyPokemonCtrl', function($scope, $stateParams, $http) {
             
         }  
         function onError() {
-            console.log("Failed: getCurrentPosition");
+            console.error("Failed: getCurrentPosition");
             $scope.currentPosition = null;
         }
     }
@@ -79,18 +77,28 @@ appModule.controller('PokemonDetailCtrl', function($scope, $stateParams, $http) 
     $scope.baseUrlGetPokemon = "http://pokeapi.co/api/v2/pokemon/";
     $scope.pokemon = {};
     $scope.getPokemons = function (name) {
-        // Assemble base url and Id
+        // Assemble base url and Id (name)
         var url = $scope.baseUrlGetPokemon + String(name);
         $http.get(url).then(function (resp) {
             console.log("Success: GetPokemon: " + url);
             // Set pokemon
             $scope.pokemon = resp.data;
+            // Split moves in seperate lists
+            $scope.splitMoves();
             $scope.pokemon.ls = window.localStorage.getItem("username");
         }, function (err) {
-            console.error("Pokemon retrieval failed: ", err.status);
-                alert(err.status);
-                // Alert user with error status
+            console.error("Failed: getPokemons: ", err.status);
+            console.error(err);
         });
+    }
+    
+    $scope.splitMoves = function() {
+        if($scope.pokemon == null) {
+            return;
+        }
+        var len = $scope.pokemon.moves.length, mid = len / 2;
+        $scope.pokemon.leftmoves = $scope.pokemon.moves.slice(0, mid);
+        $scope.pokemon.rightmovies = $scope.pokemon.moves.slice(mid, len);
     }
     //Call get pokemon
     $scope.getPokemons($stateParams.name);

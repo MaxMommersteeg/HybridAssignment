@@ -18,3 +18,12 @@
 .align-right {
     text-align: right;
 }
+
+.pokemon-detail-image {
+    height:48px;
+    width:48px;
+}
+
+.pokemon-name{
+    text-transform: capitalize;    
+}

@@ -1,9 +1,60 @@
 <ion-view title="{{pokemon.name}}">
   <ion-content padding="true" has-tabs="true">
-    <p>Height: {{ pokemon.height }}</p>
-    <p>Weight: {{ pokemon.weight }}</p>
-    <p>Local Storage: {{ pokemon.ls}}</p>
-    
-    <p><a class="button button-small icon ion-arrow-left-b" href="#/tab/pokemons"> Back to pokemon list</a></p>
+    <p><a class="button button-small icon ion-arrow-left-c" href="#/tab/pokemons"> Back to pokemon list</a></p>
+    <div class="row">
+        <div class="col-100">
+            <h2 class="pokemon-name">{{pokemon.name ? pokemon.name + '\'s details' : 'Loading'}}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-show="pokemon.sprites.front_default != null" class="col-25">
+            <img class="pokemon-detail-image" src="{{pokemon.sprites.front_default}}"/>
+        </div>
+        <div ng-show="pokemon.sprites.back_default != null" class="col-25">
+            <img class="pokemon-detail-image" src="{{pokemon.sprites.back_default}}"/>
+        </div>
+        <div ng-show="pokemon.sprites.front_shiny != null" class="col-25">
+            <img class="pokemon-detail-image" src="{{pokemon.sprites.front_shiny}}"/>
+        </div>
+        <div ng-show="pokemon.sprites.back_shiny != null" class="col-25">
+            <img class="pokemon-detail-image" src="{{pokemon.sprites.back_shiny}}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-50">
+            <h4>Measurements</h4>
+        </div>
+        <div class="col-50">
+            <h4>Experience</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-50">
+            <p>Height: {{ pokemon.height ? pokemon.height : '' }}</p>
+            <p>Weight: {{ pokemon.weight ? pokemon.weight : '' }}</p>
+        </div>
+        <div class="col-50">
+            <p>Base: {{ pokemon.base_experience }}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-50">
+            <h4>Stats</h4>
+        </div>
+        <div class="col-50">
+            <h4>Experience</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-50">
+            <p>Height: {{ pokemon.height ? pokemon.height : '' }}</p>
+            <p>Weight: {{ pokemon.weight ? pokemon.weight : '' }}</p>
+        </div>
+        <div class="col-50">
+            <p>Base: {{ pokemon.base_experience }}</p>
+        </div>
+    </div>
+    <hr>
   </ion-content>
 </ion-view>
